@@ -4,35 +4,28 @@
 
   tasks:
   
-    - name: Copy Project
-      copy:
-       src: /home/mohamed/Desktop/MM-Crypto
-       dest: /root
-    - name: Docker PS
-      shell: docker ps
-
-    - name: Install yum utils
+    - name: Docker Install Part 1/5 - Install yum utils
       yum:
         name: yum-utils
         state: latest
 
-    - name: Install device-mapper-persistent-data
+    - name: Docker Install Part 2/5 - Install device-mapper-persistent-data
       yum:
         name: device-mapper-persistent-data
         state: latest
 
-    - name: Install lvm2
+    - name: Docker Install Part 3/5 - Install lvm2
       yum:
         name: lvm2
         state: latest
 
-    - name: Add Docker repo
+    - name: Docker Install Part 4/5 - Add Docker repo
       get_url:
         url: https://download.docker.com/linux/centos/docker-ce.repo
         dest: /etc/yum.repos.d/docer-ce.repo
       become: yes
 
-    - name: Install Docker
+    - name: Docker Install part 5/5 - Install Docker Package
       package:
         name: docker-ce
         state: latest
@@ -45,12 +38,27 @@
         enabled: yes
       become: yes
     
-    - name: Build Container
+    - name: Copy Github Project
+      copy:
+       src: /home/mohamed/Desktop/MM-Crypto
+       dest: /root
+
+    - name: Stop All Containers
+      shell: docker stop $(docker ps -a -q)
+
+    - name: Remove All Containers
+      shell: docker rm $(docker ps -a -q)
+
+    - name: Remove Previous Image
+      shell: docker rmi mm-crypto:v1
+
+    - name: Build Container With Dockerfile
       shell: |
        cd /root/MM-Crypto/Web\ Application/MM-Crypto/
        docker build -t mm-crypto:v1 .
 
-    - name: Start Container
+    - name: Run Container
       shell: docker run -p 80:80 mm-crypto:v1
+
     - name: Check Container
       shell: docker ps
