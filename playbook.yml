@@ -1,0 +1,56 @@
+- hosts: all
+  become: yes
+  remote_user: root
+
+  tasks:
+  
+    - name: Copy Project
+      copy:
+       src: /home/mohamed/Desktop/MM-Crypto
+       dest: /root
+    - name: Docker PS
+      shell: docker ps
+
+    - name: Install yum utils
+      yum:
+        name: yum-utils
+        state: latest
+
+    - name: Install device-mapper-persistent-data
+      yum:
+        name: device-mapper-persistent-data
+        state: latest
+
+    - name: Install lvm2
+      yum:
+        name: lvm2
+        state: latest
+
+    - name: Add Docker repo
+      get_url:
+        url: https://download.docker.com/linux/centos/docker-ce.repo
+        dest: /etc/yum.repos.d/docer-ce.repo
+      become: yes
+
+    - name: Install Docker
+      package:
+        name: docker-ce
+        state: latest
+      become: yes
+
+    - name: Start Docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes
+      become: yes
+    
+    - name: Build Container
+      shell: |
+       cd /root/MM-Crypto/Web\ Application/MM-Crypto/
+       docker build -t mm-crypto:v1 .
+
+    - name: Start Container
+      shell: docker run -p 80:80 mm-crypto:v1
+    - name: Check Container
+      shell: docker ps
