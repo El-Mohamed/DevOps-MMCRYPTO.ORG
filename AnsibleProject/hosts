@@ -1,6 +1,0 @@
-[TestServers]
-192.168.0.241 ansible_user=root
-
-[ProductieServers]
-
-
