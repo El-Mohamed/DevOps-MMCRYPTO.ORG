@@ -61,7 +61,7 @@
       git:
        repo: git@github.com:ElMoufid-Mohamed/DevOps-Project-Files.git
        version: master
-       dest: /root/MM-Cyrpto
+       dest: /root/MM-Crypto
        accept_hostkey: yes
 
     - name: Stop All Containers
