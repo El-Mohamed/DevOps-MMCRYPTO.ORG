@@ -59,19 +59,22 @@
 
     - name: Clone Github Repo
       git:
-       repo: git@github.com:ElMoufid-Mohamed/DevOps-Project-Files.git
+       repo: git@github.com:ElMoufid-Mohamed/MM-Crypto.git
        version: master
        dest: /root/MM-Crypto
        accept_hostkey: yes
 
     - name: Stop All Containers
       shell: docker stop $(docker ps -a -q)
+      ignore_errors: True
 
     - name: Remove All Containers
       shell: docker rm $(docker ps -a -q)
+      ignore_errors: True
 
     - name: Remove Previous Image
       shell: docker rmi mm-crypto:v1
+      ignore_errors: True
 
     - name: Build Container With Dockerfile
       shell: |
