@@ -70,8 +70,8 @@
        cd /root/MM-Crypto/Web\ Application/MM-Crypto/
        docker build -t mm-crypto:v1 .
 
-    - name: Run Container
-      shell: docker run -p 80:80 mm-crypto:v1
+    - name: Run Container Detached
+      shell: docker run -d -p 80:80 mm-crypto:v1
 
     - name: Check Container
       shell: docker ps
