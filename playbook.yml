@@ -38,10 +38,23 @@
         enabled: yes
       become: yes
     
-    - name: Copy Github Project
-      copy:
-       src: /home/mohamed/Desktop/MM-Crypto
-       dest: /root
+#    - name: Copy Github Project
+#      copy:
+#       src: /home/mohamed/Desktop/MM-Crypto
+#       dest: /root
+
+    - name: Install GIT
+      package:
+       name: git
+       state: latest
+      become: yes
+
+    - name: Clone Github Repo
+      git:
+       repo: git@github.com:ElMoufid-Mohamed/DevOps-Project-Files.git
+       version: master
+       dest: /root/MM-Cyrpto
+       accept_hostkey: yes
 
     - name: Stop All Containers
       shell: docker stop $(docker ps -a -q)
