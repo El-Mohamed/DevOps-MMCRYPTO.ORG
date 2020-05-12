@@ -6,7 +6,7 @@
        cd StartJenkinsWithAnsible/
        ./startbuild.sh
 
-- hosts: all
+- hosts: TestServers:ProductieServers
   become: yes
   remote_user: root
 
