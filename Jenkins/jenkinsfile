@@ -1,11 +1,21 @@
 pipeline {
-   agent any
+   agent { node { label 'master' } } 
    tools {nodejs "My NodeJS"}
     environment {
         FIREBASE_TOKEN = credentials('firebase-token')
         FIREBASE_PROJECT = credentials('firebase-project')
     }
     stages {
+        stage('Run Ansible Playbook') {
+            steps {
+                node('Ubuntu') {
+                    sh '''
+                    cd /home/mohamed/Desktop/DevOps-Project-Files/Ansible/
+                    ./startplaybook.sh
+                    '''
+                }
+            }
+        }
         stage('Install Angular CLI') {
             steps {
                 sh 'npm install @angular/cli'
