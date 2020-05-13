@@ -61,6 +61,16 @@
 #       src: /home/mohamed/Desktop/MM-Crypto
 #       dest: /root
 
+    - name: Install Python Pip
+      yum:
+       name: python-pip
+       state: latest
+      become: yes
+
+    - name: Install Docker Py
+      pip:
+       name: docker-py   
+
     - name: Install GIT
       package:
        name: git
@@ -92,7 +102,16 @@
        docker build -t mm-crypto:v1 .
 
     - name: Run Container Detached
-      shell: docker run -d -p 80:80 mm-crypto:v1
+      shell: docker run -d -p 80:80 --name MyAngularContainer mm-crypto:v1
+
+    - name: Get Container Info
+      docker_container_info:
+       name: MyAngularContainer
+      register: result
 
     - name: Check Container
-      shell: docker ps
+      debug:
+       msg: "The Angular Container {{ 'Exists' if result.exists else 'Does Not Exist' }}"
+
+#    - name: Check Container
+#      shell: docker ps
