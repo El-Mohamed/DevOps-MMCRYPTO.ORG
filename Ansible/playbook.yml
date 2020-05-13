@@ -11,6 +11,16 @@
   remote_user: root
 
   tasks:
+
+    - name: Define EPEL REPO 1/2
+      yum:
+       name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+       state: present
+
+    - name: Define EPEL REPO 2/2 - RPM KEY
+      rpm_key:
+       key: /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
+       state: present
   
     - name: Docker Install Part 1/5 - Install yum utils
       yum:
