@@ -8,5 +8,5 @@
        name: npm
        state: present
 
-    - name: Install Angular CLI 
-      shell: npm install "@angular/cli"
+#    - name: Install Angular CLI 
+#      shell: npm install -g "@angular/cli"
