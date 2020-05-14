@@ -6,6 +6,6 @@ This folder contains all files that are need to run the ansible playbook.
 ```
 or
 ```console
-ansible-playbook -i hosts playbook.yml
+ansible-playbook -i hosts Tasks/main.yml
 ```
 
