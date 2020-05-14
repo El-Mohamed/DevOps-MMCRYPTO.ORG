@@ -5,3 +5,12 @@
 
     - name: Include Ubuntu Tasks
       include_tasks: ubunutuplaybook.yml
+
+- hosts: TestServers:ProductieServers
+  become: yes
+  remote_user: root
+
+  tasks:
+
+    - name: Include CentOS Tasks
+      include_tasks: playbook.yml
