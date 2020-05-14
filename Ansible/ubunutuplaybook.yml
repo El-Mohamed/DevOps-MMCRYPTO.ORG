@@ -8,4 +8,15 @@
        name: nodejs
        state: present
 
+    - name: Install NPM
+      apt:
+       name: npm
+       state: present
+
+    - name: Install Angular CLI 
+      shell: npm install "@angular/cli"
+#       name: "@angular/cli"
+#       state: present
+#       global: yes    
+
 
