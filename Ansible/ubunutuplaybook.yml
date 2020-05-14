@@ -15,8 +15,3 @@
 
     - name: Install Angular CLI 
       shell: npm install "@angular/cli"
-#       name: "@angular/cli"
-#       state: present
-#       global: yes    
-
-
