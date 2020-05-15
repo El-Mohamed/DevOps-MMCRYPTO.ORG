@@ -1,7 +1,7 @@
 [TestServers]
-192.168.0.244 ansible_ssh_user=root ansible_ssh_pass=12345666
+192.168.56.57 ansible_ssh_user=root ansible_ssh_pass=12345666
 
 [ProductieServers]
-192.168.0.124 ansible_ssh_user=root ansible_ssh_pass=12345666
+192.168.56.58 ansible_ssh_user=root ansible_ssh_pass=12345666
 
 
