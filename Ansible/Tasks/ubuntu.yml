@@ -1,3 +1,8 @@
+- hosts: LocalMachine
+  connection: local
+
+  tasks:
+
     - name: Get Jenkins Container Info
       docker_container_info:
        name: jenkins_container
