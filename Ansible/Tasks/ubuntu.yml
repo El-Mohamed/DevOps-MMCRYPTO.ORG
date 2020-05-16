@@ -1,12 +1,32 @@
-    - name: Install NodeJS
-      apt:
-       name: nodejs
-       state: present
+    - name: Get Jenkins Container Info
+      docker_container_info:
+       name: jenkins_container
+      register: result
 
-    - name: Install NPM
-      apt:
-       name: npm
-       state: present
+    - name: Show Container State If Container Exist
+      debug:
+       msg: "The container status is {{ result.container['State']['Status'] }}"
+      when: result.exists
+
+    - name: Create And Start Container If Not Exist
+      shell: |
+       cd ../../ContainerScripts/
+       ./jenkins.sh
+      when: result.exists == False
+
+    - name: Start Container If Not Running
+      shell: docker start jenkins_container
+      when: result.container['State']['Status'] != 'running'
+
+#    - name: Install NodeJS
+#      apt:
+#       name: nodejs
+#       state: present
+
+#    - name: Install NPM
+#      apt:
+#       name: npm
+#       state: present
 
 #    - name: Install Angular CLI 
 #      shell: npm install -g "@angular/cli"
