@@ -23,6 +23,26 @@
       shell: docker start jenkins_container
       when: result.container['State']['Status'] != 'running'
 
+    - name: Get Check-mk Container Info
+      docker_container_info:
+       name: monitoring_container
+      register: result2
+
+    - name: Show Container State If Container Exist
+      debug:
+       msg: "The Check_mk Container status is {{ result.container['State']['Status'] }}"
+      when: result2.exists
+
+    - name: Create And Start Container If Not Exist
+      shell: |
+       cd ../../ContainerScripts/
+       ./check_mk.sh
+      when: result2.exists == False
+
+    - name: Start Container If Not Running
+      shell: docker start monitoring_container
+      when: result.container['State']['Status'] != 'running'
+
 #    - name: Install NodeJS
 #      apt:
 #       name: nodejs
