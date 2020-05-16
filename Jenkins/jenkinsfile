@@ -11,7 +11,7 @@ pipeline {
                 node('Ubuntu') {
                     sh '''
                     cd /home/mohamed/Desktop/DevOps-Project-Files/Ansible/
-                    ./startplaybook.sh
+                    ./start_deployment.sh
                     '''
                 }
             }
