@@ -4,4 +4,6 @@
 [ProductieServers]
 192.168.56.58 ansible_ssh_user=root ansible_ssh_pass=12345666
 
+[LocalMachine]
+127.0.0.1
 
