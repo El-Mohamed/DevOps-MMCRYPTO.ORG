@@ -3,66 +3,71 @@
 
   tasks:
 
-    - name: Get Jenkins Container Info
+# Jenkins Container
+
+    - name: Jenkins - Get Container Info
       docker_container_info:
        name: jenkins_container
-      register: result
+      register: jenkinsresult
 
-    - name: Show Container State If Container Exist
+    - name: Jenkins - Show Container State If Exists
       debug:
-       msg: "The container status is {{ result.container['State']['Status'] }}"
-      when: result.exists
+       msg: "The Jenkins Container Is {{ jenkinsresult.container['State']['Status'] }}"
+      when: jenkinsresult.exists
 
-    - name: Create And Start Container If Not Exist
+    - name: Jenkins - Create And Start Container If Not Exist
       shell: |
        cd ../../ContainerScripts/
        ./jenkins.sh
-      when: result.exists == False
+      when: jenkinsresult.exists == False
 
-    - name: Start Container If Not Running
+    - name: Jenkins - Start Container If Not Running
       shell: docker start jenkins_container
-      when: result.container['State']['Status'] != 'running'
+      when: jenkinsresult.container['State']['Status'] != 'running'
 
-    - name: Get Check-mk Container Info
+# Check MK Container
+
+    - name: Check-mk - Get Container Info
       docker_container_info:
        name: monitoring_container
-      register: result2
+      register: monitoringresult
 
-    - name: Show Container State If Container Exist
+    - name: Check-mk - Show Container State If Exists
       debug:
-       msg: "The Check_mk Container status is {{ result.container['State']['Status'] }}"
-      when: result2.exists
+       msg: "The Check_mk Container Is {{ monitoringresult.container['State']['Status'] }}"
+      when: monitoringresult.exists
 
-    - name: Create And Start Container If Not Exist
+    - name: Check-mk - Create And Start Container If Not Exist
       shell: |
        cd ../../ContainerScripts/
        ./check_mk.sh
-      when: result2.exists == False
+      when: monitoringresult.exists == False
 
-    - name: Start Container If Not Running
+    - name: Check-mk - Start Container If Not Running
       shell: docker start monitoring_container
-      when: result2.container['State']['Status'] != 'running'
+      when: monitoringresult.container['State']['Status'] != 'running'
 
-    - name: Get ELK Container Info
+# ELK Container
+
+    - name: ELK - Get Container Info
       docker_container_info:
        name: elk_container
-      register: result3
+      register: elkresult
 
-    - name: Show Container State If Container Exist
+    - name: ELK - Show Container State If Exist
       debug:
-       msg: "The ELK Container status is {{ result.container['State']['Status'] }}"
-      when: result3.exists
+       msg: "The ELK Container Is {{ elkresult.container['State']['Status'] }}"
+      when: elkresult.exists
 
-    - name: Create And Start Container If Not Exist
+    - name: ELK - Create And Start Container If Not Exist
       shell: |
        cd ../../ContainerScripts/
        ./ELK.sh
-      when: result3.exists == False
+      when: elkresult.exists == False
 
-    - name: Start Container If Not Running
+    - name: ELK - Start Container If Not Running
       shell: docker start elk_container
-      when: result3.container['State']['Status'] != 'running'
-
+      when: elkresult.container['State']['Status'] != 'running'
 
 #    - name: Install NodeJS
 #      apt:
