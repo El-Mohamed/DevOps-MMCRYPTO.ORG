@@ -41,7 +41,28 @@
 
     - name: Start Container If Not Running
       shell: docker start monitoring_container
-      when: result.container['State']['Status'] != 'running'
+      when: result2.container['State']['Status'] != 'running'
+
+    - name: Get ELK Container Info
+      docker_container_info:
+       name: elk_container
+      register: result3
+
+    - name: Show Container State If Container Exist
+      debug:
+       msg: "The ELK Container status is {{ result.container['State']['Status'] }}"
+      when: result3.exists
+
+    - name: Create And Start Container If Not Exist
+      shell: |
+       cd ../../ContainerScripts/
+       ./ELK.sh
+      when: result3.exists == False
+
+    - name: Start Container If Not Running
+      shell: docker start elk_container
+      when: result3.container['State']['Status'] != 'running'
+
 
 #    - name: Install NodeJS
 #      apt:
