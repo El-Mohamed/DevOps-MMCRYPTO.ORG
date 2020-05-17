@@ -4,5 +4,99 @@
 
   tasks:
 
-    - name: Include CentOS Tasks
-      include_tasks: deployment.yml
+  - name: EPEL 1/2 - Install
+    yum:
+     name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+     state: present
+
+  - name: EPEL 2/2 - Import RPM KEY
+    rpm_key:
+     key: /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
+     state: present
+
+  - name: Docker Install Part 1/5 - Install yum utils
+    yum:
+      name: yum-utils
+      state: latest
+
+  - name: Docker Install Part 2/5 - Install device-mapper-persistent-data
+    yum:
+      name: device-mapper-persistent-data
+      state: latest
+
+  - name: Docker Install Part 3/5 - Install lvm2
+    yum:
+      name: lvm2
+      state: latest
+
+  - name: Docker Install Part 4/5 - Add Docker repo
+    get_url:
+      url: https://download.docker.com/linux/centos/docker-ce.repo
+      dest: /etc/yum.repos.d/docer-ce.repo
+    become: yes
+
+  - name: Docker Install part 5/5 - Install Docker Package
+    package:
+      name: docker-ce
+      state: latest
+    become: yes
+
+  - name: Start Docker service
+    service:
+      name: docker
+      state: started
+      enabled: yes
+    become: yes
+  
+  - name: Install Python Pip
+    yum:
+     name: python-pip
+     state: latest
+    become: yes
+
+  - name: Pip Install Docker-Py
+    pip:
+     name: docker-py   
+
+  - name: Install GIT
+    package:
+     name: git
+     state: latest
+    become: yes
+
+  - name: Clone Github Repo
+    git:
+     repo: git@github.com:ElMoufid-Mohamed/MM-Crypto.git
+     version: master
+     dest: /root/MM-Crypto
+     accept_hostkey: yes
+
+  - name: Stop All Containers
+    shell: docker stop $(docker ps -a -q)
+    ignore_errors: True
+
+  - name: Remove All Containers
+    shell: docker rm $(docker ps -a -q)
+    ignore_errors: True
+
+  - name: Remove Previous Image
+    shell: docker rmi mm-crypto:v1
+    ignore_errors: True
+
+  - name: Build Container With Dockerfile
+    shell: |
+     cd /root/MM-Crypto/Web\ Application/MM-Crypto/
+     docker build -t mm-crypto:v1 .
+
+  - name: Run Container Detached
+    shell: docker run -d -p 80:80 --name MyAngularContainer mm-crypto:v1
+
+  - name: Get Container Info
+    docker_container_info:
+     name: MyAngularContainer
+    register: result
+
+  - name: Show Container State If Container Exist
+    debug:
+     msg: "The container status is {{ result.container['State']['Status'] }}"
+    when: result.exists
