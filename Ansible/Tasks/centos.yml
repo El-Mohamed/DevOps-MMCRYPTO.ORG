@@ -6,6 +6,9 @@
        state: latest
 
     # Network Settings
+    
+    - debug:
+       msg: Set IPv4 Forwarding For Docker Container
 
     - sysctl: 
        name: net.ipv4.ip_forward
