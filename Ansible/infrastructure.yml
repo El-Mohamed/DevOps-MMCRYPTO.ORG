@@ -1,0 +1,6 @@
+- hosts: LocalMachine
+  connection: local
+  
+  tasks:
+   - name: Include Ubuntu Tasks
+     include: ./Tasks/ubuntu.yml

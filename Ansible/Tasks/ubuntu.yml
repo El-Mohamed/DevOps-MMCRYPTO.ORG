@@ -1,7 +1,3 @@
-- hosts: LocalMachine
-  connection: local
-  tasks:
-
     # Prepare Ubuntu Machine
 
     - name: Install All Packages
@@ -98,7 +94,7 @@
 
     - name: Copy Filebeat Configuration
       shell: |
-       cd ../../ELK/
+       cd ../ELK/
        cp filebeat.yml /etc/filebeat/
 
     - name: Restart Filebeat Service
