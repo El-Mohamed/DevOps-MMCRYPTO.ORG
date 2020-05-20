@@ -1,7 +1,21 @@
 - hosts: LocalMachine
   connection: local
-
   tasks:
+
+# Apt Packages
+
+    - name: Install All Packages
+      apt:
+       pkg: 
+       - nodejs
+       - npm
+       - openssh-server
+       - sshpass
+       - docker.io
+       - default-jre
+
+#    - name: Install Angular CLI 
+#      shell: npm install -g "@angular/cli"
 
 # Jenkins Container
 
@@ -9,6 +23,7 @@
       docker_container_info:
        name: jenkins_container
       register: jenkinsresult
+      
 
     - name: Jenkins - Show Container State If Exists
       debug:
@@ -68,16 +83,3 @@
     - name: ELK - Start Container If Not Running
       shell: docker start elk_container
       when: elkresult.container['State']['Status'] != 'running'
-
-#    - name: Install NodeJS
-#      apt:
-#       name: nodejs
-#       state: present
-
-#    - name: Install NPM
-#      apt:
-#       name: npm
-#       state: present
-
-#    - name: Install Angular CLI 
-#      shell: npm install -g "@angular/cli"
