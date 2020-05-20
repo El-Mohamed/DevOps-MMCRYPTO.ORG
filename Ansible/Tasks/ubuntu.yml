@@ -13,7 +13,13 @@
        - sshpass
        - docker.io
        - default-jre
-
+    
+    - name: Start Docker
+      systemd:
+       name: docker
+       enabled: yes
+       state: started
+      
 #    - name: Install Angular CLI 
 #      shell: npm install -g "@angular/cli"
 
