@@ -10,9 +10,7 @@
        - nodejs
        - npm
        - openssh-server
-       - sshpass
        - docker.io
-       - default-jre
     
     - name: Start Docker Service
       systemd:
@@ -97,10 +95,26 @@
        cd ../../ELK/
        cp filebeat.yml /etc/filebeat/
 
-    - name: Start Filebeat Service
+    - name: Restart Filebeat Service
       systemd:
        name: filebeat
        state: restarted
       
     - name: Setup Filebeat Dashboards
       shell: filebeat setup --dashboards
+
+    # Check MK
+
+    - name: Install Check MK Agent & Xinetd
+      apt: 
+       pkg: 
+       - check-mk-agent
+       - xinetd
+
+    # Jenkins
+
+    - name: Install JRE & SSHPASS
+      apt: 
+       pkg: 
+       - sshpass
+       - default-jre
