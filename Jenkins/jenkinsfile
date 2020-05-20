@@ -6,16 +6,6 @@ pipeline {
         FIREBASE_PROJECT = credentials('firebase-project')
     }
     stages {
-        stage('Run Ansible Playbook') {
-            steps {
-                node('Ubuntu') {
-                    sh '''
-                    cd /home/mohamed/Desktop/DevOps-Project-Files/Ansible/
-                    ./start_deployment.sh
-                    '''
-                }
-            }
-        }
         stage('Install: Angular CLI & npm Packages') {
             steps {
                 sh '''
@@ -31,6 +21,16 @@ pipeline {
                 cd "Web Application"/MM-Crypto
                 npm run "build prod"
                 ''' 
+            }
+        }
+        stage('Deploy Containers (Ansible)') {
+            steps {
+                node('Ubuntu') {
+                    sh '''
+                    cd /home/mohamed/Desktop/DevOps-Project-Files/Ansible/
+                    ./start_deployment.sh
+                    '''
+                }
             }
         }
         stage('Deploy To Firebase') {
