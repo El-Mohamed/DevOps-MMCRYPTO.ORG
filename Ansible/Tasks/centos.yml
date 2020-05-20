@@ -6,7 +6,7 @@
        state: latest
 
     # Network Settings
-    
+
     - debug:
        msg: Set IPv4 Forwarding For Docker Container
 
@@ -23,6 +23,18 @@
        firewall-cmd --reload
 
     # Check MK
+
+    - name: Install Check Mk Agent 1/2 - Copy Package
+      copy:
+       src: ../../Monitoring/check-mk-agent-1.5.0p24-1.noarch.rpm
+       dest: /root/
+       owner: root
+       group: root
+    
+    - name: Install Check Mk Agent 2/2 - Install Package
+      yum:
+       name: /root/check-mk-agent-1.5.0p24-1.noarch.rpm
+       state: present
 
     - name: Install Xinetd
       yum:
