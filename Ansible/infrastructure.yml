@@ -1,6 +1,14 @@
+- hosts: TestServers:ProductieServers
+  become: yes
+  remote_user: root
+
+  tasks:
+   - name: Include CentOS Tasks
+     include: ./Tasks/centos.yml
+
 - hosts: LocalMachine
   connection: local
   
   tasks:
    - name: Include Ubuntu Tasks
-     include: ./Tasks/ubuntu.yml
+     include: ./Tasks/ubuntu.yml  

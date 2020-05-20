@@ -1,0 +1,34 @@
+    # Software
+    
+    - name: Install Nano
+      yum:
+       name: nano
+       state: latest
+
+    # Network Settings
+
+    - sysctl: 
+       name: net.ipv4.ip_forward
+       value: '1'
+       sysctl_set: yes
+       state: present
+       reload: yes
+    
+    # Check MK
+
+    - name: Install Xinetd
+      yum:
+       name: xinetd
+       state: latest
+    
+    - name: Copy Check MK Config
+      copy: 
+       src: ../../CentOS Config/check_mk
+       dest: /etc/xinetd.d/
+       owner: root
+       group: root
+
+    - name: Restart Xinetd
+      systemd:
+       name: xinetd
+       state: restarted
