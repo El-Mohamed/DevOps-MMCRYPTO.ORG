@@ -1,3 +1,3 @@
 #!/bin/bash
 
-ansible-playbook -i hosts Tasks/main.yml
+ansible-playbook -i hosts deployment.yml
