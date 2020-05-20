@@ -85,7 +85,13 @@
       when: elkresult.container['State']['Status'] != 'running'
 
     # Filebeat
-    
+
+    - name: Set vm.max_map_count
+      shell: |
+       cd ../../Ubuntu/
+       cp sysctl.conf /etc/
+       sysctl -p
+
     - name: Install Filebeat
       apt:
        deb: https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.7.0-amd64.deb
