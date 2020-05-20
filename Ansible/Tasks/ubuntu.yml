@@ -14,6 +14,12 @@
        enabled: yes
        state: started      
 
+    - name: Start SSH Service
+      systemd:
+       name: ssh
+       enabled: yes
+       state: started  
+
     # Jenkins Container
     
     - name: Jenkins - Get Container Info
