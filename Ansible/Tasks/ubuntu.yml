@@ -2,7 +2,7 @@
   connection: local
   tasks:
 
-# Apt Packages
+    # Prepare Ubuntu Machine
 
     - name: Install All Packages
       apt:
@@ -14,23 +14,19 @@
        - docker.io
        - default-jre
     
-    - name: Start Docker
+    - name: Start Docker Service
       systemd:
        name: docker
        enabled: yes
-       state: started
-      
-#    - name: Install Angular CLI 
-#      shell: npm install -g "@angular/cli"
+       state: started      
 
-# Jenkins Container
-
+    # Jenkins Container
+    
     - name: Jenkins - Get Container Info
       docker_container_info:
        name: jenkins_container
       register: jenkinsresult
       
-
     - name: Jenkins - Show Container State If Exists
       debug:
        msg: "The Jenkins Container Is {{ jenkinsresult.container['State']['Status'] }}"
@@ -46,7 +42,7 @@
       shell: docker start jenkins_container
       when: jenkinsresult.container['State']['Status'] != 'running'
 
-# Check MK Container
+    # Check MK Container
 
     - name: Check-mk - Get Container Info
       docker_container_info:
@@ -68,7 +64,7 @@
       shell: docker start monitoring_container
       when: monitoringresult.container['State']['Status'] != 'running'
 
-# ELK Container
+    # ELK Container
 
     - name: ELK - Get Container Info
       docker_container_info:
@@ -89,3 +85,22 @@
     - name: ELK - Start Container If Not Running
       shell: docker start elk_container
       when: elkresult.container['State']['Status'] != 'running'
+
+    # Filebeat
+    
+    - name: Install Filebeat
+      apt:
+       deb: https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.7.0-amd64.deb
+
+    - name: Copy Filebeat Configuration
+      shell: |
+       cd ../../ELK/
+       cp filebeat.yml /etc/filebeat/
+
+    - name: Start Filebeat Service
+      systemd:
+       name: filebeat
+       state: restarted
+      
+    - name: Setup Filebeat Dashboards
+      shell: filebeat setup --dashboards
