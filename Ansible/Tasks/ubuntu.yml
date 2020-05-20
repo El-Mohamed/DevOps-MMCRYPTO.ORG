@@ -88,7 +88,7 @@
 
     - name: Set vm.max_map_count
       shell: |
-       cd ../../Ubuntu/
+       cd ../../'Ubuntu Config'/
        cp sysctl.conf /etc/
        sysctl -p
 
@@ -117,7 +117,7 @@
        - check-mk-agent
        - xinetd
 
-    # Jenkins
+    # Jenkins (Required For Agent)
 
     - name: Install JRE & SSHPASS
       apt: 
