@@ -95,20 +95,49 @@
     shell: docker rmi mm-crypto:v1
     ignore_errors: True
 
-  - name: Build Container With Dockerfile
+  # Frontend Container (Angular)
+
+  - name: Frontend 1/4 - Build Container With Dockerfile
     shell: |
      cd /root/MM-Crypto/Web\ Application/MM-Crypto/
      docker build -t mm-crypto:v1 .
 
-  - name: Run Container Detached
+  - name: Frontend 2/4 - Run Container Detached
     shell: docker run -d -p 80:80 --name MyAngularContainer mm-crypto:v1
 
-  - name: Get Container Info
+  - name: Frontend 3/4 - Get Container Info
     docker_container_info:
      name: MyAngularContainer
     register: result
 
-  - name: Show Container State If Container Exist
+  - name: Frontend 4/4 - Show Container State If Container Exist
     debug:
      msg: "The container status is {{ result.container['State']['Status'] }}"
     when: result.exists
+
+  # Backend Container (ASP API)
+
+  - name: Copy database-crendentials
+    copy:
+     src: /home/mohamed/Desktop/database-credentials.json
+     dest: /root/MM-Crypto/REST API/MM-Crypto/MM-Crypto/
+     owner: root
+     group: root
+
+  - name: Backend 1/4 - Build Container With Dockerfile
+    shell: |
+     cd /root/MM-Crypto/REST\ API/MM-Crypto/MM-Crypto/
+     docker build -t mm-crypto-backend:v1 .
+
+  - name: Backend 2/4 - Run Container Detached
+    shell: docker run -d -p 82:8080 --name MM-Backend mm-crypto-backend:v1
+
+  - name: Backend 3/4 - Get Container Info
+    docker_container_info:
+     name: MM-Backend
+    register: result2
+
+  - name: Backend 4/4 - Show Container State If Container Exist
+    debug:
+     msg: "The container status is {{ result2.container['State']['Status'] }}"
+    when: result2.exists
