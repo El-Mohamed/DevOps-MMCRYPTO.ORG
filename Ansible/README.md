@@ -1,23 +1,30 @@
 # Ansible
-This folder contains all files that are need to run the ansible playbook.
-## Deployment Playbook
-Deploy The Dockerized Angular Project To The CentOS Servers
+This folder contains all files that are need to run the ansible playbooks.
+
+# Deployment Playbook
+Deploy The Dockerized Angular Project To The CentOS 7 Servers
+
+## Start Playbook
 ```console
 ./start_deployment.sh
 ```
 or
 ```console
-ansible-playbook -i hosts Tasks/main.yml
+ansible-playbook -i hosts deployment.yml
 ```
-## Ubuntu Playbook
-Check if the necessary containers are up and running, if they not exist they will be created. 
-* ELK
-* Check-mk
-* Jenkins
+
+# Infrastructure Playbook
+Setup Docker Containers, Install Packages, Start Services, Configure System Files, Setup Network Settings...
+
+## 2 Seperated Tasks Files
+* CentOS Servers (Deployment Servers)
+* Ubuntu (Local Machine)
+
+## Start Playbook
 ```console
-./setup_ubuntu.sh
+sudo ./setup_infrastructure.sh
 ```
 or
 ```console
-ansible-playbook -i hosts Tasks/ubuntu.yml
+ansible-playbook -i hosts infrastructure.yml
 ```
