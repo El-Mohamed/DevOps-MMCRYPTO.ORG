@@ -100,44 +100,44 @@
   - name: Frontend 1/4 - Build Container With Dockerfile
     shell: |
      cd /root/MM-Crypto/Web\ Application/MM-Crypto/
-     docker build -t mm-crypto:v1 .
+     docker build -t mm-crypto-frontend:v1 .
 
   - name: Frontend 2/4 - Run Container Detached
-    shell: docker run -d -p 80:80 --name MyAngularContainer mm-crypto:v1
+    shell: docker run -d -p 81:80 --name MM-Frontend mm-crypto-frontend:v1
 
   - name: Frontend 3/4 - Get Container Info
     docker_container_info:
-     name: MyAngularContainer
+     name: MM-Frontend
     register: result
 
   - name: Frontend 4/4 - Show Container State If Container Exist
     debug:
-     msg: "The container status is {{ result.container['State']['Status'] }}"
+     msg: "The Container Status Is {{ result.container['State']['Status'] }}"
     when: result.exists
 
   # Backend Container (ASP API)
 
-  - name: Copy database-crendentials
+  - name: Backend 1/5 - Copy database-crendentials
     copy:
      src: /home/mohamed/Desktop/database-credentials.json
      dest: /root/MM-Crypto/REST API/MM-Crypto/MM-Crypto/
      owner: root
      group: root
 
-  - name: Backend 1/4 - Build Container With Dockerfile
+  - name: Backend 2/5 - Build Container With Dockerfile
     shell: |
      cd /root/MM-Crypto/REST\ API/MM-Crypto/MM-Crypto/
      docker build -t mm-crypto-backend:v1 .
 
-  - name: Backend 2/4 - Run Container Detached
+  - name: Backend 3/5 - Run Container Detached
     shell: docker run -d -p 82:8080 --name MM-Backend mm-crypto-backend:v1
 
-  - name: Backend 3/4 - Get Container Info
+  - name: Backend 4/5 - Get Container Info
     docker_container_info:
      name: MM-Backend
     register: result2
 
-  - name: Backend 4/4 - Show Container State If Container Exist
+  - name: Backend 5/5 - Show Container State If Container Exist
     debug:
-     msg: "The container status is {{ result2.container['State']['Status'] }}"
+     msg: "The Container Status Is {{ result2.container['State']['Status'] }}"
     when: result2.exists
