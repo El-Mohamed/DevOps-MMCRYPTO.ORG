@@ -1,5 +1,29 @@
-    # Prepare Ubuntu Machine
+    # 1. Install Packages (nodjs, npm, openssh-server, docker.io)
+    # 2. Start Docker & SSH Service
+    # 3. Jenkins
+    #     - Create Container If Not Exists
+    #     - Start Container If Stopped
+    #     - Check Container State
+    #     - Install JRE (Java) & SSHPASS (Required For Slave)
+    # 4. Check MK
+    #     - Create Container If Not Exists
+    #     - Start Container If Stopped
+    #     - Check Container State
+    #     - Install CheckMk Agent & Xinetd
+    # 5. ELK
+    #     - Set vm.max_map_count
+    #     - Create Container If Not Exists
+    #     - Start Container If Stopped
+    #     - Check Container State
+    # 6. FileBeat
+    #     - Install Filebeat
+    #     - Copy Filebeat Configuration From Repo
+    #     - Restart Filebeat Service
+    #     - Setup Filebeat Dashboards
 
+    # Install Packages 
+    #########################################################################################
+    
     - name: Install All Packages
       apt:
        pkg: 
@@ -8,6 +32,9 @@
        - openssh-server
        - docker.io
     
+    # Start Services 
+    #########################################################################################
+
     - name: Start Docker Service
       systemd:
        name: docker
@@ -20,7 +47,8 @@
        enabled: yes
        state: started  
 
-    # Jenkins Container
+    # Jenkins (Container) + Slave 
+    #########################################################################################
     
     - name: Jenkins - Get Container Info
       docker_container_info:
@@ -42,7 +70,16 @@
       shell: docker start jenkins_container
       when: jenkinsresult.container['State']['Status'] != 'running'
 
-    # Check MK Container
+    # (Required For Slave)
+
+    - name: Install JRE & SSHPASS
+      apt: 
+       pkg: 
+       - sshpass
+       - default-jre
+
+    # Check MK (Container) + Agent
+    ######################################################################################### 
 
     - name: Check-mk - Get Container Info
       docker_container_info:
@@ -64,7 +101,22 @@
       shell: docker start monitoring_container
       when: monitoringresult.container['State']['Status'] != 'running'
 
-    # ELK Container
+    # Check MK Agent
+
+    - name: Install Check MK Agent & Xinetd
+      apt: 
+      pkg: 
+      - check-mk-agent
+      - xinetd
+
+    # ELK Container + Filebeat
+    ######################################################################################### 
+
+    - name: Set vm.max_map_count
+      shell: |
+        cd ../../'Ubuntu Config'/
+        cp sysctl.conf /etc/
+        sysctl -p
 
     - name: ELK - Get Container Info
       docker_container_info:
@@ -88,12 +140,6 @@
 
     # Filebeat
 
-    - name: Set vm.max_map_count
-      shell: |
-       cd ../../'Ubuntu Config'/
-       cp sysctl.conf /etc/
-       sysctl -p
-
     - name: Install Filebeat
       apt:
        deb: https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.7.0-amd64.deb
@@ -110,19 +156,3 @@
       
     - name: Setup Filebeat Dashboards
       shell: filebeat setup --dashboards
-
-    # Check MK
-
-    - name: Install Check MK Agent & Xinetd
-      apt: 
-       pkg: 
-       - check-mk-agent
-       - xinetd
-
-    # Jenkins (Required For Agent)
-
-    - name: Install JRE & SSHPASS
-      apt: 
-       pkg: 
-       - sshpass
-       - default-jre
