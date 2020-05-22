@@ -74,9 +74,9 @@
 
     - name: Install JRE & SSHPASS
       apt: 
-       pkg: 
-       - sshpass
-       - default-jre
+        pkg: 
+        - sshpass
+        - default-jre
 
     # Check MK (Container) + Agent
     ######################################################################################### 
@@ -105,9 +105,9 @@
 
     - name: Install Check MK Agent & Xinetd
       apt: 
-      pkg: 
-      - check-mk-agent
-      - xinetd
+        pkg: 
+        - check-mk-agent
+        - xinetd
 
     # ELK Container + Filebeat
     ######################################################################################### 
