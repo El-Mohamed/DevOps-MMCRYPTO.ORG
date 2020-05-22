@@ -2,7 +2,42 @@
   become: yes
   remote_user: root
 
+  # 1. NTP
+  #   - Install NTP
+  #   - Start NTP Service
+  # 2. EPEL
+  #   - Install EPEL
+  #   - import RPM Key
+  # 3. Docker Install & Start
+  #     - Install yum utils
+  #     - Install device-mapper-persistent-data
+  #     - Install lvm2
+  #     - Add Docker repo
+  #     - Install Docker Package
+  #     - Start Docker service
+  #     - Install Python Pip
+  #     - Pip Install Docker-Py
+  # 4. Git Checkout Code
+  #     - Install Git
+  #     - Clone Source Code With SSH
+  # 5. Previous Dockers Containers & Images
+  #     - Stop All Containers
+  #     - Remove All Containers
+  #     - Remove Old Image
+  # 6. Frontend Deployment
+  #     - Build Image With Dockerfile
+  #     - Run Container Detached
+  #     - Check Container State
+  # 7. Backend Deployment
+  #     - Copy Database Credentials From Desktop (Connection String)
+  #     - Build Image With Dockerfile
+  #     - Run Container Detached
+  #     - Check Container State
+
   tasks:
+
+  # NTP (System TIME)
+  #########################################################################################
 
   - name: NTP 1/2 - Install NTP (For Sytsem Time)
     yum:
@@ -16,6 +51,9 @@
       enabled: yes
     become: yes
 
+  # EPEL REPO
+  #########################################################################################
+
   - name: EPEL 1/2 - Install
     yum:
      name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
@@ -26,6 +64,9 @@
      key: /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
      state: present
 
+  # Docker Install & Start
+  #########################################################################################
+  
   - name: Docker Install Part 1/5 - Install yum utils
     yum:
       name: yum-utils
@@ -70,6 +111,9 @@
     pip:
      name: docker-py   
 
+  # Git Checkout
+  #########################################################################################
+  
   - name: Install GIT
     package:
      name: git
@@ -83,6 +127,9 @@
      dest: /root/MM-Crypto
      accept_hostkey: yes
 
+  # Previous Dockers Containers & Images
+  #########################################################################################
+    
   - name: Stop All Containers
     shell: docker stop $(docker ps -a -q)
     ignore_errors: True
@@ -96,6 +143,7 @@
     ignore_errors: True
 
   # Frontend Container (Angular)
+  #########################################################################################
 
   - name: Frontend 1/4 - Build Container With Dockerfile
     shell: |
@@ -116,6 +164,7 @@
     when: result.exists
 
   # Backend Container (ASP API)
+  #########################################################################################
 
   - name: Backend 1/5 - Copy database-crendentials
     copy:
