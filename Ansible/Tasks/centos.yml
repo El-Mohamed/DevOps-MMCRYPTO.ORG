@@ -1,12 +1,25 @@
+    # 1. Install Software (nano)
+    # 2. Network Settings
+    #     - Set IPv4 Forwarding (For Angular Container)
+    #     - Open Port 6656 (For Check Mk Agent)
+    # 3. Check MK Agent
+    #     - Copy Package From Repo
+    #     - Install Package
+    #     - Install Xinetd
+    #     - Copy Check Mk Config From Repo  
+    #     - Restart Xinetd Service
+          
     # Software
-    
+    #########################################################################################
+  
     - name: Install Nano
       yum:
        name: nano
        state: latest
 
     # Network Settings
-
+    #########################################################################################
+    
     - debug:
        msg: Set IPv4 Forwarding For Docker Container
 
@@ -22,7 +35,8 @@
        firwall-cmd --permanent --add-port 6556/tcp
        firewall-cmd --reload
 
-    # Check MK
+    # Check MK Agent
+    #########################################################################################
 
     - name: Install Check Mk Agent 1/2 - Copy Package
       copy:
