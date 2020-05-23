@@ -138,8 +138,12 @@
     shell: docker rm $(docker ps -a -q)
     ignore_errors: True
 
-  - name: Remove Previous Image
-    shell: docker rmi mm-crypto:v1
+  - name: Remove Previous Frontend Image
+    shell: docker rmi mm-crypto-frontend:v1
+    ignore_errors: True
+
+  - name: Remove Previous Backend Image
+    shell: docker rmi mm-crypto-backend:v1
     ignore_errors: True
 
   # Frontend Container (Angular)
