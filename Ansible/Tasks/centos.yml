@@ -1,7 +1,7 @@
     # 1. Install Software (nano)
     # 2. Network Settings
     #     - Set IPv4 Forwarding (For Angular Container)
-    #     - Open Port 6656 (For Check Mk Agent)
+    #     - Open Port 6556 (For Check Mk Agent)
     # 3. Check MK Agent
     #     - Copy Package From Repo
     #     - Install Package
