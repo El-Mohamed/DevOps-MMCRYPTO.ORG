@@ -16,4 +16,4 @@
 * Docker Logs
 
 ## Scheme
-<img src="https://raw.githubusercontent.com/ElMoufid-Mohamed/DevOps-MMCRYPTO.ORG/09f67577505572bece8ed6204a1b0d7cd62374d6/Scheme/Diagram.svg" width="600px">
+<img src="https://raw.githubusercontent.com/ElMoufid-Mohamed/DevOps-MMCRYPTO.ORG/13d4cb927461057db97cb7ed0c645a3908600d09/Scheme/Diagram.svg">
