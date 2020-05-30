@@ -1,5 +1,11 @@
 # DevOps On MMCRYPTO.ORG
 
+<p align="center" >
+<br>
+<img src="Scheme/Diagram.png" width="70%">
+<br>
+</p>
+
 ## Jenkins
 * Pipeline as code
 
@@ -14,6 +20,3 @@
 ## ELK Stack
 * Ubuntu Logs
 * Docker Logs
-
-## Scheme
-<img src="https://raw.githubusercontent.com/ElMoufid-Mohamed/DevOps-MMCRYPTO.ORG/13d4cb927461057db97cb7ed0c645a3908600d09/Scheme/Diagram.svg">
