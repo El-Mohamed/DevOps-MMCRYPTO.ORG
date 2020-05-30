@@ -2,7 +2,7 @@
 
 <p align="center" >
 <br>
-<img src="Scheme/Diagram.png" width="70%">
+<img src="Scheme/Diagram.svg" width="70%">
 <br>
 </p>
 
