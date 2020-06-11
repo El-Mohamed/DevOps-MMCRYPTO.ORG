@@ -1,10 +1,9 @@
 # Jenkins
-This is the pipeline for the Angular Project. 
+This is the pipeline for the Angular & ASP.NET Project. 
 
 ## Stages 
 * Check Out Repo
-* Install NodeJS
-* Install Angular CLI
+* Angular CLI & Install NodeJS
 * Build Production
-* Deploy To Firebase
 * Deploy Containers To CentOS Servers
+* Deploy To Firebase
