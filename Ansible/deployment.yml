@@ -122,9 +122,9 @@
 
   - name: Clone Github Repo
     git:
-     repo: git@github.com:ElMoufid-Mohamed/MM-Crypto.git
+     repo: git@github.com:ElMoufid-Mohamed/MMCRYPTO.ORG.git
      version: master
-     dest: /root/MM-Crypto
+     dest: /root/MMCRYPTO.ORG
      accept_hostkey: yes
 
   # Previous Dockers Containers & Images
@@ -151,7 +151,7 @@
 
   - name: Frontend 1/4 - Build Container With Dockerfile
     shell: |
-     cd /root/MM-Crypto/Web\ Application/MM-Crypto/
+     cd /root/MMCRYPTO.ORG/Web\ Application/MM-Crypto/
      docker build -t mm-crypto-frontend:v1 .
 
   - name: Frontend 2/4 - Run Container Detached
@@ -173,13 +173,13 @@
   - name: Backend 1/5 - Copy database-crendentials
     copy:
      src: /home/mohamed/Desktop/database-credentials.json
-     dest: /root/MM-Crypto/REST API/MM-Crypto/MM-Crypto/
+     dest: /root/MMCRYPTO.ORG/REST API/MM-Crypto/MM-Crypto/
      owner: root
      group: root
 
   - name: Backend 2/5 - Build Container With Dockerfile
     shell: |
-     cd /root/MM-Crypto/REST\ API/MM-Crypto/MM-Crypto/
+     cd /root/MMCRYPTO.ORG/REST\ API/MM-Crypto/MM-Crypto/
      docker build -t mm-crypto-backend:v1 .
 
   - name: Backend 3/5 - Run Container Detached
